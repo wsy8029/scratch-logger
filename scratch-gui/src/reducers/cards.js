@@ -87,6 +87,8 @@ const reducer = function (state, action) {
 };
 
 const activateDeck = function (activeDeckId) {
+    //@author Annie
+    console.log(Date.now(), "OpenCard");
     return {
         type: ACTIVATE_DECK,
         activeDeckId
@@ -98,6 +100,8 @@ const viewCards = function () {
 };
 
 const closeCards = function () {
+    //@author Annie
+    console.log(Date.now(), "CloseCard");
     return {type: CLOSE_CARDS};
 };
 
@@ -106,10 +110,14 @@ const shrinkExpandCards = function () {
 };
 
 const nextStep = function () {
+    //@author Annie
+    console.log(Date.now(), "NextStep");
     return {type: NEXT_STEP};
 };
 
 const prevStep = function () {
+    //@author Annie
+    console.log(Date.now(), "PrevStep");
     return {type: PREV_STEP};
 };
 

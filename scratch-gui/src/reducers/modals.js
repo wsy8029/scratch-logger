@@ -85,6 +85,8 @@ const openConnectionModal = function () {
     return openModal(MODAL_CONNECTION);
 };
 const openTipsLibrary = function () {
+    //@author Annie
+    console.log(Date.now(), "OpenTutorial");
     return openModal(MODAL_TIPS_LIBRARY);
 };
 const closeBackdropLibrary = function () {
@@ -115,6 +117,8 @@ const closeSoundRecorder = function () {
     return closeModal(MODAL_SOUND_RECORDER);
 };
 const closeTipsLibrary = function () {
+    //@author Annie
+    console.log(Date.now(), "CloseTutorial");
     return closeModal(MODAL_TIPS_LIBRARY);
 };
 const closeConnectionModal = function () {
