@@ -185,6 +185,10 @@ Blockly.BlockDragger.prototype.startBlockDrag = function(currentDragDeltaXY) {
         'blocklyToolboxGrab';
     toolbox.addStyle(style);
   }
+
+  //@author Annie
+  console.log(Date.now(), this.draggingBlock_.type)
+  console.log(this.workspace_.getParentSvg());
 };
 
 /**
@@ -270,6 +274,9 @@ Blockly.BlockDragger.prototype.endBlockDrag = function(e, currentDragDeltaXY) {
     setTimeout(function() {
       ws.undo();
     });
+  //@author Annie
+  console.log(Date.now(), this.draggingBlock_.type);
+  console.log(this.workspace_.getParentSvg());
   }
 
   // Scratch-specific: roll back deletes that create call blocks with defines.
