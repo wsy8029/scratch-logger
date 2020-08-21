@@ -46,45 +46,23 @@ class GUI extends React.Component {
         setIsScratchDesktop(this.props.isScratchDesktop);
         this.props.onStorageInit(storage);
         this.props.onVmInit(this.props.vm);
-
         console.log(window.location.host);
     
-        document.addEventListener('mousemove', updateCoordinates);
-
-        firestore
-            .collection("test")
-            .add({
-                sourceIP: "...",
-                created: Date.now(),
-                eventName: "mouse_move",
-                eventCategory: "mouse_action",
-                eventType: "mousemove",
-                eventX: xCoordinates,
-                eventY: yCoordinates,
-
-            })
-            .then((res) => {
-                console.log(res);
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-
+        document.addEventListener('mousemove', handleMouseEvent);
     }
-    
-    componentDidUpdate (prevProps) {
-        if (this.props.projectId !== prevProps.projectId && this.props.projectId !== null) {
-            this.props.onUpdateProjectId(this.props.projectId);
+        componentDidUpdate (prevProps) {
+            if (this.props.projectId !== prevProps.projectId && this.props.projectId !== null) {
+                this.props.onUpdateProjectId(this.props.projectId);
+            }
+            if (this.props.isShowingProject && !prevProps.isShowingProject) {
+                // this only notifies container when a project changes from not yet loaded to loaded
+                // At this time the project view in www doesn't need to know when a project is unloaded
+                this.props.onProjectLoaded();
+            }
         }
-        if (this.props.isShowingProject && !prevProps.isShowingProject) {
-            // this only notifies container when a project changes from not yet loaded to loaded
-            // At this time the project view in www doesn't need to know when a project is unloaded
-            this.props.onProjectLoaded();
-        }
-    }
 
     componentWillUnmount(){
-        document.removeEventListener('mousemove',updateCoordinates);
+        document.removeEventListener('mousemove', handleMouseEvent)
     }
 
     
@@ -126,29 +104,39 @@ class GUI extends React.Component {
     }
 }
 
-var xCoordinates= 0;
-var yCoordinates = 0;
+//@author grayson: mouse-tracker 
+function handleMouseEvent(e){
+    var xCoordinates= 0;
+    var yCoordinates = 0;
+    if (e!=null){
+        xCoordinates =e.pageX;
+        yCoordinates =e.pageY;
 
-function updateCoordinates(e){
-    xCoordinates =e.pageX;
-    yCoordinates =e.pageY;
-    
-    setInterval(updateCoordinates,500);
-   
+        firestore
+            .collection("test")
+            .add({
+                created: Date.now(),
+                eventName: "mouse_move",
+                eventCategory: "mouse_action",
+                eventType: "mousemove",
+                eventX: xCoordinates,
+                eventY: yCoordinates,
+                sourceIP: "grayson",
+            })
+            .then((res) => {
+                console.log(res);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }
+    else if (e= null){
+         return
+    };
 };
+setInterval(handleMouseEvent, 500);
+//
 
- // function mouseTracker(){
-    //     var mouseLog = {
-    //         "timeStamp": Date.now() + " ",
-    //         "event": "mouseMove",
-    //         "x": xCoordinates + " ",
-    //         "y": yCoordinates + " ",
-    //     }
-    //     console.log(mouseLog)
-    // };
-    // setInterval(mouseTracker, 500);
-
-    
 GUI.propTypes = {
     assetHost: PropTypes.string,
     children: PropTypes.node,
