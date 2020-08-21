@@ -48,7 +48,7 @@ class GUI extends React.Component {
 
         console.log(window.location.host);
     
-        document.addEventListener('mousemove', handleMouseEvent);
+        document.addEventListener('mousemove', updateCoordinates);
 
     }
     
@@ -64,7 +64,7 @@ class GUI extends React.Component {
     }
 
     componentWillUnmount(){
-        document.removeEventListener('mousemove',handleMouseEvent);
+        document.removeEventListener('mousemove',updateCoordinates);
     }
 
     
@@ -94,7 +94,6 @@ class GUI extends React.Component {
             loadingStateVisible,
             ...componentProps
         } = this.props;
-
         var foo = (
             <GUIComponent
                 loading={fetchingProject || isLoading || loadingStateVisible}
@@ -107,27 +106,24 @@ class GUI extends React.Component {
     }
 }
 
+var xCoordinates= 0;
+var yCoordinates = 0;
 
-function handleMouseEvent(){
-    var xCoordinates= 0;
-    var yCoordinates = 0;
+function updateCoordinates(e){
+    xCoordinates =e.pageX;
+    yCoordinates =e.pageY;
     
-    var mouseLog = {
-        "timeStamp": Date.now() + " ",
-        "event": "mouseMove",
-        "x": xCoordinates + " ",
-        "y": yCoordinates + " ",
-    }
-
-    function updateCoordinates(e){
-        xCoordinates =e.pageX;
-        yCoordinates =e.pageY;
+    function mouseTracker(){
+        var mouseLog = {
+            "timeStamp": Date.now() + " ",
+            "event": "mouseMove",
+            "x": xCoordinates + " ",
+            "y": yCoordinates + " ",
+        }
+        console.log(mouseLog)
     };
-    
-    console.log(mouseLog)
+    setInterval(mouseTracker, 500);
 };
-
-setInterval(handleMouseEvent, 500);
 
 GUI.propTypes = {
     assetHost: PropTypes.string,
@@ -223,4 +219,3 @@ const WrappedGui = compose(
 
 WrappedGui.setAppElement = ReactModal.setAppElement;
 export default WrappedGui;
-
