@@ -43,19 +43,19 @@ class GUI extends React.Component {
         this.props.onStorageInit(storage);
         this.props.onVmInit(this.props.vm);
 
-        // firestore
-        //     .collection("user_evaluations")
-        //     .add({
-        //         name: "tom",
-        //         age: 34,
-        //         isValid: true,
-        //     })
-        //     .then((res) => {
-        //         console.log(res);
-        //     })
-        //     .catch((err) => {
-        //         console.log(err);
-        //     });
+        firestore
+            .collection("test")
+            .add({
+                name: "tom",
+                age: 34,
+                isValid: true,
+            })
+            .then((res) => {
+                console.log(res);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
     }
     componentDidUpdate(prevProps) {
         if (
