@@ -40,11 +40,18 @@ import GUIComponent from '../components/gui/gui.jsx';
 import {setIsScratchDesktop} from '../lib/isScratchDesktop.js';
 
 class GUI extends React.Component {
+
     componentDidMount () {
         setIsScratchDesktop(this.props.isScratchDesktop);
         this.props.onStorageInit(storage);
         this.props.onVmInit(this.props.vm);
+
+        console.log(window.location.host);
+    
+        document.addEventListener('mousemove', updateco);
+
     }
+    
     componentDidUpdate (prevProps) {
         if (this.props.projectId !== prevProps.projectId && this.props.projectId !== null) {
             this.props.onUpdateProjectId(this.props.projectId);
@@ -55,6 +62,12 @@ class GUI extends React.Component {
             this.props.onProjectLoaded();
         }
     }
+
+    componentWillUnmount(){
+        document.removeEventListener('mousemove',updateco);
+    }
+
+    
     render () {
         if (this.props.isError) {
             throw new Error(
@@ -81,16 +94,37 @@ class GUI extends React.Component {
             loadingStateVisible,
             ...componentProps
         } = this.props;
-        return (
+        var foo = (
             <GUIComponent
                 loading={fetchingProject || isLoading || loadingStateVisible}
                 {...componentProps}
             >
                 {children}
             </GUIComponent>
-        );
+        );        
+        return foo;
     }
 }
+
+var xco= 0;
+var yco = 0;
+
+function updateco(e){
+    xco =e.pageX;
+    yco =e.pageY;
+}
+
+function mouseTracker(){
+    var mouseLog = {
+        "timeStamp": Date.now() + " ",
+        "event": "mouseMove",
+        "x": xco + " ",
+        "y": yco + " ",
+    }
+    console.log(mouseLog)
+};
+
+setInterval(mouseTracker, 500);
 
 GUI.propTypes = {
     assetHost: PropTypes.string,
@@ -186,3 +220,4 @@ const WrappedGui = compose(
 
 WrappedGui.setAppElement = ReactModal.setAppElement;
 export default WrappedGui;
+
