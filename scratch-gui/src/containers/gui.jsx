@@ -38,6 +38,7 @@ import cloudManagerHOC from '../lib/cloud-manager-hoc.jsx';
 
 import GUIComponent from '../components/gui/gui.jsx';
 import {setIsScratchDesktop} from '../lib/isScratchDesktop.js';
+import { firestore } from "../lib/firebase.js";
 
 class GUI extends React.Component {
 
@@ -49,6 +50,25 @@ class GUI extends React.Component {
         console.log(window.location.host);
     
         document.addEventListener('mousemove', updateCoordinates);
+
+        firestore
+            .collection("test")
+            .add({
+                sourceIP: "...",
+                created: Date.now(),
+                eventName: "mouse_move",
+                eventCategory: "mouse_action",
+                eventType: "mousemove",
+                eventX: xCoordinates,
+                eventY: yCoordinates,
+
+            })
+            .then((res) => {
+                console.log(res);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
 
     }
     
@@ -113,18 +133,22 @@ function updateCoordinates(e){
     xCoordinates =e.pageX;
     yCoordinates =e.pageY;
     
-    function mouseTracker(){
-        var mouseLog = {
-            "timeStamp": Date.now() + " ",
-            "event": "mouseMove",
-            "x": xCoordinates + " ",
-            "y": yCoordinates + " ",
-        }
-        console.log(mouseLog)
-    };
-    setInterval(mouseTracker, 500);
+    setInterval(updateCoordinates,500);
+   
 };
 
+ // function mouseTracker(){
+    //     var mouseLog = {
+    //         "timeStamp": Date.now() + " ",
+    //         "event": "mouseMove",
+    //         "x": xCoordinates + " ",
+    //         "y": yCoordinates + " ",
+    //     }
+    //     console.log(mouseLog)
+    // };
+    // setInterval(mouseTracker, 500);
+
+    
 GUI.propTypes = {
     assetHost: PropTypes.string,
     children: PropTypes.node,
