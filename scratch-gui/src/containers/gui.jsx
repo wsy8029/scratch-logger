@@ -48,7 +48,7 @@ class GUI extends React.Component {
 
         console.log(window.location.host);
     
-        document.addEventListener('mousemove', updateco);
+        document.addEventListener('mousemove', handleMouseEvent);
 
     }
     
@@ -64,7 +64,7 @@ class GUI extends React.Component {
     }
 
     componentWillUnmount(){
-        document.removeEventListener('mousemove',updateco);
+        document.removeEventListener('mousemove',handleMouseEvent);
     }
 
     
@@ -94,6 +94,7 @@ class GUI extends React.Component {
             loadingStateVisible,
             ...componentProps
         } = this.props;
+
         var foo = (
             <GUIComponent
                 loading={fetchingProject || isLoading || loadingStateVisible}
@@ -106,25 +107,27 @@ class GUI extends React.Component {
     }
 }
 
-var xco= 0;
-var yco = 0;
 
-function updateco(e){
-    xco =e.pageX;
-    yco =e.pageY;
-}
-
-function mouseTracker(){
+function handleMouseEvent(){
+    var xCoordinates= 0;
+    var yCoordinates = 0;
+    
     var mouseLog = {
         "timeStamp": Date.now() + " ",
         "event": "mouseMove",
-        "x": xco + " ",
-        "y": yco + " ",
+        "x": xCoordinates + " ",
+        "y": yCoordinates + " ",
     }
+
+    function updateCoordinates(e){
+        xCoordinates =e.pageX;
+        yCoordinates =e.pageY;
+    };
+    
     console.log(mouseLog)
 };
 
-setInterval(mouseTracker, 500);
+setInterval(handleMouseEvent, 500);
 
 GUI.propTypes = {
     assetHost: PropTypes.string,
