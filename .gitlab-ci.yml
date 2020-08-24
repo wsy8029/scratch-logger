@@ -5,7 +5,6 @@ variables:
     REPOSITORY_URL: 012634413971.dkr.ecr.ap-northeast-2.amazonaws.com/$SERVICE_NAME
 
 stages:
-    # - npm_build
     - deploy_ecr
     - deploy
 
@@ -21,16 +20,6 @@ before_script:
     - mkdir -p /etc/deploy
     - echo ${kube_config} | base64 -d > ${KUBECONFIG}
     - export KUBECONFIG=$HOME/.kube/kubeconfig && aws eks --region ap-northeast-2 update-kubeconfig --name dev-luxrobo
-
-npm_build:
-    stage: npm_build
-    script:
-        - npm install
-    artifacts:
-        paths:
-            - node_modules/
-    tags:
-        - docker
 
 deploy_ecr:
     stage: deploy_ecr
