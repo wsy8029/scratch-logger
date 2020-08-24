@@ -5,7 +5,7 @@ variables:
     REPOSITORY_URL: 012634413971.dkr.ecr.ap-northeast-2.amazonaws.com/$SERVICE_NAME
 
 stages:
-    #- npm_build
+    # - npm_build
     - deploy_ecr
     - deploy
 
@@ -34,8 +34,6 @@ npm_build:
 
 deploy_ecr:
     stage: deploy_ecr
-    only:
-
     script:
         - aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
         - aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
