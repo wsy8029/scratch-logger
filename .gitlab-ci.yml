@@ -26,6 +26,9 @@ npm_build:
     stage: npm_build
     script:
         - npm install
+    artifacts:
+        paths:
+            - node_modules/
     tags:
         - docker
 
