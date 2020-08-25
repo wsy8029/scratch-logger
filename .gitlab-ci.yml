@@ -59,6 +59,6 @@ deploy:
         - echo $COMMIT_BRANCH
         - echo ${COMMIT_BRANCH}
         - echo $DEPLOYS
-        - if [ ${DEPLOYS} -eq 0 ]; then helm install --name=$SERVICE_NAME charts/$COMMIT_BRANCH/service; else helm upgrade $SERVICE_NAME charts/$COMMIT_BRANCH/service; fi
+        - if [ ${DEPLOYS} -eq 0 ]; then helm install --name=$SERVICE_NAME .charts/$COMMIT_BRANCH/service; else helm upgrade $SERVICE_NAME .charts/$COMMIT_BRANCH/service; fi
     tags:
         - docker
