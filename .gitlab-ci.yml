@@ -55,10 +55,10 @@ deploy:
         # - helm del --purge $SERVICE_NAME
         - export DEPLOYS=$(helm ls | grep $SERVICE_NAME | wc -l)
         - echo $CI_COMMIT_REF_NAME
-        - if [ $CI_COMMIT_REF_NAME == 'master' ]; then export COMMIT_BRANCH=dev; else export COMMIT_BRANCH=$CI_COMMIT_REF_NAME; fi
+        - if [ $CI_COMMIT_REF_NAME == 'master' ]; then export COMMIT_BRANCH=dev; else export COMMIT_BRANCH=dev; fi
         - echo $COMMIT_BRANCH
         - echo ${COMMIT_BRANCH}
         - echo $DEPLOYS
-        - if [ ${DEPLOYS} -eq 0 ]; then helm install --name=$SERVICE_NAME .charts/dev/service; else helm upgrade $SERVICE_NAME .charts/dev/service; fi
+        - if [ ${DEPLOYS} -eq 0 ]; then helm install --name=$SERVICE_NAME .charts/$COMMIT_BRANCH/service; else helm upgrade $SERVICE_NAME .charts/$COMMIT_BRANCH/service; fi
     tags:
         - docker
