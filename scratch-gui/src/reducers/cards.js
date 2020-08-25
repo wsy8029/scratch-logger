@@ -1,6 +1,7 @@
 import analytics from '../lib/analytics';
 
 import decks from '../lib/libraries/decks/index.jsx';
+import { firestore } from "../lib/firebase.js";
 
 const CLOSE_CARDS = 'scratch-gui/cards/CLOSE_CARDS';
 const SHRINK_EXPAND_CARDS = 'scratch-gui/cards/SHRINK_EXPAND_CARDS';
@@ -27,6 +28,25 @@ const reducer = function (state, action) {
     if (typeof state === 'undefined') state = initialState;
     switch (action.type) {
     case CLOSE_CARDS:
+        //@author Annie
+        console.log(Date.now(), "CloseCard");
+        firestore
+            .collection("test")
+            .add({
+                eventName: "close_card",
+                eventCategory: "card_action",
+                eventType: "mouse",
+                eventAction: "click",
+                eventStatus: `${state.activeDeckId} - ${state.step}`,
+                sourceIP: "annie",
+                created: Date.now(),
+            })
+            .then((res) => {
+                console.log(res);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
         return Object.assign({}, state, {
             visible: false
         });
@@ -39,6 +59,25 @@ const reducer = function (state, action) {
             visible: true
         });
     case ACTIVATE_DECK:
+        //@author Annie
+        console.log(Date.now(), "OpenCard");
+        firestore
+            .collection("test")
+            .add({
+                eventName: "open_card",
+                eventCategory: "card_action",
+                eventType: "mouse",
+                eventAction: "click",
+                eventStatus: `${state.activeDeckId} - ${state.step}`,
+                sourceIP: "annie",
+                created: Date.now(),
+            })
+            .then((res) => {
+                console.log(res);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
         return Object.assign({}, state, {
             activeDeckId: action.activeDeckId,
             step: 0,
@@ -48,6 +87,25 @@ const reducer = function (state, action) {
             visible: true
         });
     case NEXT_STEP:
+        //@author Annie
+        console.log(Date.now(), "NextStep");
+        firestore
+            .collection("test")
+            .add({
+                eventName: "next_card",
+                eventCategory: "card_action",
+                eventType: "mouse",
+                eventAction: "click",
+                eventStatus: `${state.activeDeckId} - ${state.step}`,
+                sourceIP: "annie",
+                created: Date.now(),
+            })
+            .then((res) => {
+                console.log(res);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
         if (state.activeDeckId !== null) {
             analytics.event({
                 category: 'how-to',
@@ -60,6 +118,25 @@ const reducer = function (state, action) {
         }
         return state;
     case PREV_STEP:
+        //@author Annie
+        console.log(Date.now(), "PrevStep");
+        firestore
+            .collection("test")
+            .add({
+                eventName: "previous_card",
+                eventCategory: "card_action",
+                eventType: "mouse",
+                eventAction: "click",
+                eventStatus: `${state.activeDeckId} - ${state.step}`,
+                sourceIP: "annie",
+                created: Date.now(),
+            })
+            .then((res) => {
+                console.log(res);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
         if (state.activeDeckId !== null) {
             if (state.step > 0) {
                 return Object.assign({}, state, {
@@ -87,8 +164,6 @@ const reducer = function (state, action) {
 };
 
 const activateDeck = function (activeDeckId) {
-    //@author Annie
-    console.log(Date.now(), "OpenCard");
     return {
         type: ACTIVATE_DECK,
         activeDeckId
@@ -100,8 +175,6 @@ const viewCards = function () {
 };
 
 const closeCards = function () {
-    //@author Annie
-    console.log(Date.now(), "CloseCard");
     return {type: CLOSE_CARDS};
 };
 
@@ -110,14 +183,10 @@ const shrinkExpandCards = function () {
 };
 
 const nextStep = function () {
-    //@author Annie
-    console.log(Date.now(), "NextStep");
     return {type: NEXT_STEP};
 };
 
 const prevStep = function () {
-    //@author Annie
-    console.log(Date.now(), "PrevStep");
     return {type: PREV_STEP};
 };
 

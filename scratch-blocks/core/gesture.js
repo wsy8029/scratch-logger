@@ -389,6 +389,30 @@ Blockly.Gesture.prototype.updateIsDraggingBlock_ = function() {
   } else if (this.targetBlock_.isMovable() || this.shouldDuplicateOnDrag_){
     this.isDraggingBlock_ = true;
   }
+  //@author Annie
+  var blockType = this.targetBlock_.type;
+  var dragLocation = (this.flyout_ == null) ? "blockly_workspace" : "blockly_flyout";
+  console.log(Date.now(), "drag_start", blockType, dragLocation)
+  window.ai.logger(function (firestore){
+    firestore
+    .collection("test")
+    .add({
+        eventName: "drag_start",
+        eventCategory: "block_action",
+        eventType: "drag_and_drop",
+        eventAction: "dragstart",
+        eventBlock: blockType,
+        eventLocation: dragLocation,
+        sourceIP: "annie",
+        created: Date.now(),
+    })
+    .then((res) => {
+        console.log(res);
+    })
+    .catch((err) => {
+        console.log(err);
+    });
+  });
 
   if (this.isDraggingBlock_) {
     this.startDraggingBlock_();
@@ -583,6 +607,30 @@ Blockly.Gesture.prototype.handleUp = function(e) {
     this.bubbleDragger_.endBubbleDrag(e, this.currentDragDeltaXY_);
   } else if (this.isDraggingBlock_) {
     this.blockDragger_.endBlockDrag(e, this.currentDragDeltaXY_);
+    //@author Annie
+    var blockType = this.targetBlock_.type;
+    var dragLocation = (this.flyout_ == null) ? "blockly_flyout" : "blockly_workspace";
+    console.log(Date.now(), "drag_end", blockType, dragLocation)
+    window.ai.logger(function (firestore){
+      firestore
+      .collection("test")
+      .add({
+          eventName: "drag_end",
+          eventCategory: "block_action",
+          eventType: "drag_and_drop",
+          eventAction: "dragend",
+          eventBlock: blockType,
+          eventLocation: dragLocation,
+          sourceIP: "annie",
+          created: Date.now(),
+      })
+      .then((res) => {
+          console.log(res);
+      })
+      .catch((err) => {
+          console.log(err);
+      })
+    });
   } else if (this.isDraggingWorkspace_) {
     this.workspaceDragger_.endDrag(this.currentDragDeltaXY_);
   } else if (this.isBubbleClick_()) {
@@ -592,6 +640,30 @@ Blockly.Gesture.prototype.handleUp = function(e) {
     this.doFieldClick_();
   } else if (this.isBlockClick_()) {
     this.doBlockClick_();
+    //@author Annie
+    var blockType = this.targetBlock_.type;
+    var clickLocation = (this.targetBlock_.isInFlyout) ? "blockly_flyout" : "blockly_workspace";
+    console.log(Date.now(), "click", blockType, clickLocation);
+    window.ai.logger(function (firestore){
+      firestore
+      .collection("test")
+      .add({
+          eventName: "click_block",
+          eventCategory: "block_action",
+          eventType: "mouse",
+          eventAction: "click",
+          eventBlock: blockType,
+          eventLocation: clickLocation,
+          sourceIP: "annie",
+          created: Date.now(),
+      })
+      .then((res) => {
+          console.log(res);
+      })
+      .catch((err) => {
+          console.log(err);
+      })
+    });
   } else if (this.isWorkspaceClick_()) {
     this.doWorkspaceClick_();
   }

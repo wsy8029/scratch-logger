@@ -1,3 +1,5 @@
+import { firestore } from "../lib/firebase.js";
+
 const OPEN_MODAL = 'scratch-gui/modals/OPEN_MODAL';
 const CLOSE_MODAL = 'scratch-gui/modals/CLOSE_MODAL';
 
@@ -87,6 +89,22 @@ const openConnectionModal = function () {
 const openTipsLibrary = function () {
     //@author Annie
     console.log(Date.now(), "OpenTutorial");
+    firestore
+        .collection("test")
+        .add({
+            eventName: "open_tutorial",
+            eventCategory: "tutorial_action",
+            eventType: "mouse",
+            eventAction: "click",
+            sourceIP: "annie",
+            created: Date.now(),
+        })
+        .then((res) => {
+            console.log(res);
+        })
+        .catch((err) => {
+            console.log(err);
+        });
     return openModal(MODAL_TIPS_LIBRARY);
 };
 const closeBackdropLibrary = function () {
@@ -119,6 +137,22 @@ const closeSoundRecorder = function () {
 const closeTipsLibrary = function () {
     //@author Annie
     console.log(Date.now(), "CloseTutorial");
+    firestore
+        .collection("test")
+        .add({
+            eventName: "close_tutorial",
+            eventCategory: "tutorial_action",
+            eventType: "mouse",
+            eventAction: "click",
+            sourceIP: "annie",
+            created: Date.now(),
+        })
+        .then((res) => {
+            console.log(res);
+        })
+        .catch((err) => {
+            console.log(err);
+        });
     return closeModal(MODAL_TIPS_LIBRARY);
 };
 const closeConnectionModal = function () {

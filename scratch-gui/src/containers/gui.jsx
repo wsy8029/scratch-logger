@@ -37,25 +37,21 @@ import GUIComponent from "../components/gui/gui.jsx";
 import { setIsScratchDesktop } from "../lib/isScratchDesktop.js";
 import { firestore } from "../lib/firebase.js";
 
+import ScratchBlocks from 'scratch-blocks';
+
 class GUI extends React.Component {
     componentDidMount() {
+        //@author Annie
+        window.ai = {
+            logger: function(cb){
+                if(cb && typeof cb === 'function'){
+                    cb(firestore);
+                }
+            }
+        }
         setIsScratchDesktop(this.props.isScratchDesktop);
         this.props.onStorageInit(storage);
         this.props.onVmInit(this.props.vm);
-
-        // firestore
-        //     .collection("user_evaluations")
-        //     .add({
-        //         name: "tom",
-        //         age: 34,
-        //         isValid: true,
-        //     })
-        //     .then((res) => {
-        //         console.log(res);
-        //     })
-        //     .catch((err) => {
-        //         console.log(err);
-        //     });
     }
     componentDidUpdate(prevProps) {
         if (

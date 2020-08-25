@@ -5,6 +5,7 @@ import VM from 'scratch-vm';
 import {connect} from 'react-redux';
 
 import ControlsComponent from '../components/controls/controls.jsx';
+import { firestore } from "../lib/firebase.js";
 
 class Controls extends React.Component {
     constructor (props) {
@@ -23,6 +24,40 @@ class Controls extends React.Component {
                 this.props.vm.start();
             }
             this.props.vm.greenFlag();
+            //@author Annie
+            const blocks = this.props.vm.editingTarget.blocks._blocks;
+            const heads = this.props.vm.editingTarget.blocks._scripts;
+
+            let scripts = [];
+            for (var i = 0 ; i < heads.length; i++) {
+                let script = []
+                var head = heads[i];
+                var target = blocks[head];
+                script.push(target.opcode);
+                while (target.next) {
+                    target = blocks[target.next];
+                    script.push(target.opcode);
+                }
+                scripts.push(script);
+            }
+            console.log(Date.now(), "click flag", scripts);
+            firestore
+            .collection("test")
+            .add({
+                eventName: "click_flag",
+                eventCategory: "scratch_action",
+                eventType: "mouse",
+                eventAction: "click",
+                codeBlocks: JSON.stringify(scripts),
+                sourceIP: "annie",
+                created: Date.now(),
+            })
+            .then((res) => {
+                console.log(res);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
         }
     }
     handleStopAllClick (e) {
