@@ -20,9 +20,7 @@ const base = {
     devServer: {
         contentBase: path.resolve(__dirname, 'build'),
         disableHostCheck: true,
-        allowedHosts: [
-            '.luxrobo.com'
-        ],
+        host: '0.0.0.0',
         port: process.env.PORT || 8601
     },
     output: {
