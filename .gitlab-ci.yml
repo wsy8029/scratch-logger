@@ -52,13 +52,13 @@ deploy:
         - helm repo update
 
         - helm tiller start-ci
-        - helm del --purge $HEML_SERVICE_NAME
-        - export DEPLOYS=$(helm ls | grep $HEML_SERVICE_NAME | wc -l)
+        - helm del --purge $SERVICE_NAME
+        - export DEPLOYS=$(helm ls | grep $SERVICE_NAME | wc -l)
         - echo $CI_COMMIT_REF_NAME
         - if [ $CI_COMMIT_REF_NAME == 'master' ]; then export COMMIT_BRANCH=dev; else export COMMIT_BRANCH=$CI_COMMIT_REF_NAME; fi
         - echo $COMMIT_BRANCH
         - echo ${COMMIT_BRANCH}
         - echo $DEPLOYS
-        - if [ ${DEPLOYS} -eq 0 ]; then helm install --name=$HEML_SERVICE_NAME charts/$COMMIT_BRANCH/service; else helm upgrade $HEML_SERVICE_NAME charts/$COMMIT_BRANCH/service; fi
+        - if [ ${DEPLOYS} -eq 0 ]; then helm install --name=$SERVICE_NAME charts/$COMMIT_BRANCH/service; else helm upgrade $SERVICE_NAME charts/$COMMIT_BRANCH/service; fi
     tags:
         - docker
