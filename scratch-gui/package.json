@@ -145,10 +145,6 @@
     }
   },
   "dependencies": {
-<<<<<<< HEAD
-    "ip": "^1.1.5"
-=======
     "firebase": "^7.19.0"
->>>>>>> feature/event-tracker
   }
 }
