@@ -60,11 +60,22 @@ class GUI extends React.Component {
         ) {
             this.props.onUpdateProjectId(this.props.projectId);
         }
-        if (this.props.isShowingProject && !prevProps.isShowingProject) {
-            // this only notifies container when a project changes from not yet loaded to loaded
-            // At this time the project view in www doesn't need to know when a project is unloaded
-            this.props.onProjectLoaded();
+        // document.addEventListener('mousemove', handleMouseEvent);
+
+    }
+        componentDidUpdate (prevProps) {
+            if (this.props.projectId !== prevProps.projectId && this.props.projectId !== null) {
+                this.props.onUpdateProjectId(this.props.projectId);
+            }
+            if (this.props.isShowingProject && !prevProps.isShowingProject) {
+                // this only notifies container when a project changes from not yet loaded to loaded
+                // At this time the project view in www doesn't need to know when a project is unloaded
+                this.props.onProjectLoaded();
+            }
         }
+
+    componentWillUnmount(){
+        // document.removeEventListener('mousemove', handleMouseEvent)
     }
     render() {
         if (this.props.isError) {
@@ -93,16 +104,52 @@ class GUI extends React.Component {
             loadingStateVisible,
             ...componentProps
         } = this.props;
-        return (
+        var foo = (
             <GUIComponent
                 loading={fetchingProject || isLoading || loadingStateVisible}
                 {...componentProps}
             >
                 {children}
             </GUIComponent>
-        );
+        );        
+        return foo;
     }
-}
+};
+
+//@author grayson: mouse-tracker 
+// function handleMouseEvent(e){
+//     var xCoordinates= 0;
+//     var yCoordinates = 0;
+
+//     if (e!=null){
+//         xCoordinates =e.pageX;
+//         yCoordinates =e.pageY;
+
+//         firestore
+//             .collection("test")
+//             .add({
+//                 created: Date.now(),
+//                 eventName: "mouse_move",
+//                 eventCategory: "mouse_action",
+//                 eventType: "mousemove",
+//                 eventX: xCoordinates,
+//                 eventY: yCoordinates,
+//                 sourceIP: "grayson",
+//             })
+//             .then((res) => {
+//                 console.log(res);
+//             })
+//             .catch((err) => {
+//                 console.log(err);
+//             });
+//     }
+//     else if (e= null){
+//          return
+//     };
+// };
+// setInterval(handleMouseEvent, 500);
+//
+
 
 GUI.propTypes = {
     assetHost: PropTypes.string,
@@ -201,3 +248,6 @@ const WrappedGui = compose(
 
 WrappedGui.setAppElement = ReactModal.setAppElement;
 export default WrappedGui;
+
+
+

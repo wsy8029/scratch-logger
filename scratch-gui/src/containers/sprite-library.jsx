@@ -31,6 +31,30 @@ class SpriteLibrary extends React.PureComponent {
         this.props.vm.addSprite(JSON.stringify(item.json)).then(() => {
             this.props.onActivateBlocksTab();
         });
+        
+        //@author grayson:handleSpriteEvent
+        var picked_sprite=item.name 
+
+        window.ai.logger(function handleSpriteEvent(firestore){
+            firestore
+            .collection("test")
+            .add({
+                created: Date.now(),
+                eventName: "pick_sprite",
+                eventCategory: "scratch_action",
+                eventType: "mouse",
+                eventAction: "click",
+                backdropName: picked_sprite,
+                sourceIP: "grayson",
+            })
+            .then((res) => {
+                console.log(res);
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+        });
+
     }
     render () {
         return (

@@ -94,7 +94,7 @@ const StageHeaderComponent = function (props) {
             </Button>
         );
         header = (
-            <Box className={styles.stageHeaderWrapperOverlay}>
+            <Box className={styles.HeaderWrapperOverlay}>
                 <Box
                     className={styles.stageMenuWrapper}
                     style={{width: stageDimensions.width}}

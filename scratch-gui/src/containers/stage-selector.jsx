@@ -82,6 +82,7 @@ class StageSelector extends React.Component {
     }
     handleNewBackdrop (backdrops_, shouldActivateTab = true) {
         const backdrops = Array.isArray(backdrops_) ? backdrops_ : [backdrops_];
+        console.log
         return Promise.all(backdrops.map(backdrop =>
             this.props.vm.addBackdrop(backdrop.md5, backdrop)
         )).then(() => {
@@ -95,6 +96,31 @@ class StageSelector extends React.Component {
         // @todo should this not add a backdrop you already have?
         const item = backdropLibraryContent[Math.floor(Math.random() * backdropLibraryContent.length)];
         this.addBackdropFromLibraryItem(item, false);
+        
+        
+        //@author grayson: handleBackdropEvent: SurpriseBackdrop
+        var surprise_backdrop = item.name
+        
+        window.ai.logger(function handleBackdropEvent(firestore){
+            firestore
+            .collection("test_grayson")
+            .add({
+                created: Date.now(),
+                eventName: "surprise_backdrop",
+                eventCategory: "scratch_action",
+                eventType: "mouse",
+                eventAction: "click",
+                backdropName: surprise_backdrop,
+                sourceIP: "grayson",
+            })
+            .then((res) => {
+                console.log(res);
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+        });
+
     }
     handleEmptyBackdrop (e) {
         e.stopPropagation(); // Prevent click from falling through to stage selector, select it manually below
@@ -105,6 +131,26 @@ class StageSelector extends React.Component {
         const storage = this.props.vm.runtime.storage;
         this.props.onShowImporting();
         handleFileUpload(e.target, (buffer, fileType, fileName, fileIndex, fileCount) => {
+                    console.log('uPLOAD')
+                    //@author grayson: handleBackdropEvent: UploadBackdrop
+                    window.ai.logger(function handleBackdropEvent(firestore){
+                        firestore
+                        .collection("test_grayson")
+                        .add({
+                            created: Date.now(),
+                            eventName: "upload_backdrop",
+                            eventCategory: "scratch_action",
+                            eventType: "mouse",
+                            eventAction: "click",
+                            sourceIP: "grayson",
+                        })
+                        .then((res) => {
+                            console.log(res);
+                        })
+                        .catch((err) => {
+                            console.log(err);
+                        })
+                    });
             costumeUpload(buffer, fileType, storage, vmCostumes => {
                 this.props.vm.setEditingTarget(this.props.id);
                 vmCostumes.forEach((costume, i) => {

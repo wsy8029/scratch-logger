@@ -21,7 +21,7 @@ const messages = defineMessages({
         defaultMessage: 'Choose a Backdrop'
     },
     addBackdropFromPaint: {
-        id: 'gui.stageSelector.addBackdropFromPaint',
+        id: 'gui.Selector.addBackdropFromPaint',
         description: 'Button to add a stage in the target pane from paint',
         defaultMessage: 'Paint'
     },
