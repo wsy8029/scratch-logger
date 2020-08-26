@@ -144,5 +144,7 @@
       "editor-msgs(\\.js)?$": "<rootDir>/test/__mocks__/editor-msgs-mock.js"
     }
   },
-  "dependencies": {}
+  "dependencies": {
+    "ip": "^1.1.5"
+  }
 }
