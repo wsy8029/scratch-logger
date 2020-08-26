@@ -18,16 +18,39 @@ class Controls extends React.Component {
         e.preventDefault();
         if (e.shiftKey) {
             this.props.vm.setTurboMode(!this.props.turbo);
+            console.log(this.props);
         } else {
             if (!this.props.isStarted) {
                 this.props.vm.start();
             }
             this.props.vm.greenFlag();
+            console.log(this.props);
+            console.log(e)
         }
     }
     handleStopAllClick (e) {
         e.preventDefault();
         this.props.vm.stopAll();
+        
+        //@author grayson: handleStopEvent
+        window.ai.logger(function handleStopEvent(firestore){
+            firestore
+            .collection("test_grayson")
+            .add({
+                created: Date.now(),
+                eventName: "click_stop",
+                eventCategory: "scratch_action",
+                eventType: "mouse",
+                eventAction: "click",
+                sourceIP: "grayson",
+            })
+            .then((res) => {
+                console.log(res);
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+        });
     }
     render () {
         const {

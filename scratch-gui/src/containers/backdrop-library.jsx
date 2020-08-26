@@ -32,6 +32,30 @@ class BackdropLibrary extends React.Component {
             bitmapResolution: item.info.length > 2 ? item.info[2] : 1,
             skinId: null
         };
+
+        //@author grayson: handleBackdropEvent
+        var picked_backdrop = item.name
+
+        window.ai.logger(function handleBackdropEvent(firestore){
+            firestore
+            .collection("test_grayson")
+            .add({
+                created: Date.now(),
+                eventName: "pick_backdrop",
+                eventCategory: "scratch_action",
+                eventType: "mouse",
+                eventAction: "click",
+                backdropName: picked_backdrop,
+                sourceIP: "grayson",
+            })
+            .then((res) => {
+                console.log(res);
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+        });
+
         // Do not switch to stage, just add the backdrop
         this.props.vm.addBackdrop(item.md5, vmBackdrop);
     }
@@ -48,6 +72,7 @@ class BackdropLibrary extends React.Component {
         );
     }
 }
+
 
 BackdropLibrary.propTypes = {
     intl: intlShape.isRequired,

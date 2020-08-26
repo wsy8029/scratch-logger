@@ -38,7 +38,7 @@ import cloudManagerHOC from '../lib/cloud-manager-hoc.jsx';
 
 import GUIComponent from '../components/gui/gui.jsx';
 import {setIsScratchDesktop} from '../lib/isScratchDesktop.js';
-import { firestore } from "../lib/firebase.js";
+import {firestore} from "../lib/firebase.js";
 
 class GUI extends React.Component {
 
@@ -47,8 +47,16 @@ class GUI extends React.Component {
         this.props.onStorageInit(storage);
         this.props.onVmInit(this.props.vm);
         console.log(window.location.host);
-    
-        document.addEventListener('mousemove', handleMouseEvent);
+
+        window.ai={
+            logger:function(cb){
+                if(cb && typeof cb === 'function'){
+                    cb(firestore);
+                }
+            }
+        }
+        // document.addEventListener('mousemove', handleMouseEvent);
+
     }
         componentDidUpdate (prevProps) {
             if (this.props.projectId !== prevProps.projectId && this.props.projectId !== null) {
@@ -62,7 +70,7 @@ class GUI extends React.Component {
         }
 
     componentWillUnmount(){
-        document.removeEventListener('mousemove', handleMouseEvent)
+        // document.removeEventListener('mousemove', handleMouseEvent)
     }
 
     
@@ -102,40 +110,42 @@ class GUI extends React.Component {
         );        
         return foo;
     }
-}
+};
 
 //@author grayson: mouse-tracker 
-function handleMouseEvent(e){
-    var xCoordinates= 0;
-    var yCoordinates = 0;
-    if (e!=null){
-        xCoordinates =e.pageX;
-        yCoordinates =e.pageY;
+// function handleMouseEvent(e){
+//     var xCoordinates= 0;
+//     var yCoordinates = 0;
 
-        firestore
-            .collection("test")
-            .add({
-                created: Date.now(),
-                eventName: "mouse_move",
-                eventCategory: "mouse_action",
-                eventType: "mousemove",
-                eventX: xCoordinates,
-                eventY: yCoordinates,
-                sourceIP: "grayson",
-            })
-            .then((res) => {
-                console.log(res);
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-    }
-    else if (e= null){
-         return
-    };
-};
-setInterval(handleMouseEvent, 500);
+//     if (e!=null){
+//         xCoordinates =e.pageX;
+//         yCoordinates =e.pageY;
+
+//         firestore
+//             .collection("test")
+//             .add({
+//                 created: Date.now(),
+//                 eventName: "mouse_move",
+//                 eventCategory: "mouse_action",
+//                 eventType: "mousemove",
+//                 eventX: xCoordinates,
+//                 eventY: yCoordinates,
+//                 sourceIP: "grayson",
+//             })
+//             .then((res) => {
+//                 console.log(res);
+//             })
+//             .catch((err) => {
+//                 console.log(err);
+//             });
+//     }
+//     else if (e= null){
+//          return
+//     };
+// };
+// setInterval(handleMouseEvent, 500);
 //
+
 
 GUI.propTypes = {
     assetHost: PropTypes.string,
@@ -231,3 +241,6 @@ const WrappedGui = compose(
 
 WrappedGui.setAppElement = ReactModal.setAppElement;
 export default WrappedGui;
+
+
+
