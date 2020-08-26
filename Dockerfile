@@ -35,8 +35,7 @@ WORKDIR /usr/src/app/scratch-gui
 COPY package*.json ./
 
 RUN npm install
-RUN npm link scratch-blocks
-RUN npm link scratch-vm
+RUN npm link scratch-vm scratch-blocks
 # If you are building your code for production
 # RUN npm ci --only=production
 
