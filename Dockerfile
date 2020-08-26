@@ -5,6 +5,13 @@ WORKDIR /usr/src/app
 
 RUN python -V
 
+# RUN add-apt-repository ppa:webupd8team/java
+# RUN apt-get update
+RUN apt-get update
+RUN apt-get install -y openjdk-8-jdk
+RUN java -version
+
+
 RUN git clone https://tom.song:fs770411%21%23%24@git.luxrobo.net/lms/scratch-web-blocks.git scratch-blocks
 RUN git clone https://tom.song:fs770411%21%23%24@git.luxrobo.net/lms/scratch-web-vm.git scratch-vm
 
