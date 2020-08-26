@@ -1,4 +1,5 @@
 /**
+ *
  * @license
  * Visual Blocks Editor
  *
@@ -256,8 +257,10 @@ Blockly.onKeyDown_ = function(e) {
     Blockly.hideChaff();
     Blockly.selected.dispose(/* heal */ true, true);
     Blockly.Events.setGroup(false);
+
   }
 };
+
 
 /**
  * Copy a block or workspace comment onto the local clipboard.

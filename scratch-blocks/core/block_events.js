@@ -295,6 +295,7 @@ Blockly.Events.Create.prototype.run = function(forward) {
  * @extends {Blockly.Events.BlockBase}
  * @constructor
  */
+
 Blockly.Events.Delete = function(block) {
   if (!block) {
     return;  // Blank event to be populated by fromJson.
@@ -310,7 +311,32 @@ Blockly.Events.Delete = function(block) {
     this.oldXml = Blockly.Xml.blockToDom(block);
   }
   this.ids = Blockly.Events.getDescendantIds_(block);
-};
+  
+  // @author grayson: handleDeleteEvent
+  var block_name = this.ids
+  
+  if (block.e = Blockly.Events.BLOCK_DELETE){
+     window.ai.logger(function handleDeleteEvent (firestore){
+      firestore
+        .collection("test_grayson")
+        .add({
+            created: Date.now(),
+            eventName: "delete_block",
+            eventCategory: "keyboard",
+            eventType: "keydown",
+            eventBlock: block_name,
+            sourceIP: "grayson",
+          })
+        .then((res) => {
+            console.log(res);
+            })
+        .catch((err) => {
+            console.log(err);
+            })
+      });
+  }
+}
+
 goog.inherits(Blockly.Events.Delete, Blockly.Events.BlockBase);
 
 /**
@@ -529,3 +555,4 @@ Blockly.Events.Move.prototype.run = function(forward) {
     }
   }
 };
+

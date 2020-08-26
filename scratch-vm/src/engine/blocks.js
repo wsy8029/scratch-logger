@@ -311,7 +311,6 @@ class Blocks {
         // UI event: clicked scripts toggle in the runtime.
         if (e.element === 'stackclick') {
             this.runtime.toggleScript(e.blockId, {stackClick: true});
-            return;
         }
 
         // Block create/update/destroy
@@ -359,7 +358,6 @@ class Blocks {
             // or shadow blocks being obscured.
             if (!this._blocks.hasOwnProperty(e.blockId) ||
                 this._blocks[e.blockId].shadow) {
-                return;
             }
             // Inform any runtime to forget about glows on this script.
             if (this._blocks[e.blockId].topLevel) {
@@ -795,7 +793,9 @@ class Blocks {
      */
     deleteBlock (blockId) {
         // @todo In runtime, stop threads running on this script.
-
+        // @author grayson - deleteblock 
+        if (blockId!=null) {
+            }
         // Get block
         const block = this._blocks[blockId];
         if (!block) {

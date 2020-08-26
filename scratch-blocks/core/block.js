@@ -25,7 +25,6 @@
 'use strict';
 
 goog.provide('Blockly.Block');
-
 goog.require('Blockly.Blocks');
 goog.require('Blockly.Colours');
 goog.require('Blockly.Comment');
@@ -362,12 +361,13 @@ Blockly.Block.prototype.unplug = function(opt_healStack) {
   }
 };
 
+//@author-grayson: block-connections
 /**
  * Returns all connections originating from this block.
  * @return {!Array.<!Blockly.Connection>} Array of connections.
  * @private
  */
-Blockly.Block.prototype.getConnections_ = function() {
+Blockly.Block.prototype.getConnections_ = function getConnections_() {
   var myConnections = [];
   if (this.outputConnection) {
     myConnections.push(this.outputConnection);

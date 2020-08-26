@@ -166,7 +166,7 @@ Blockly.Blocks['event_whenbackdropswitchesto'] = {
       "category": Blockly.Categories.event,
       "extensions": ["colours_event", "shape_hat"]
     });
-  }
+  } 
 };
 
 Blockly.Blocks['event_whengreaterthan'] = {
