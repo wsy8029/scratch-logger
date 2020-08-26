@@ -52,7 +52,7 @@ deploy:
         - helm repo update
 
         - helm tiller start-ci
-        - helm del --purge $SERVICE_NAME
+        # - helm del --purge $SERVICE_NAME
         - export DEPLOYS=$(helm ls | grep $SERVICE_NAME | wc -l)
         - echo $CI_COMMIT_REF_NAME
         - if [ $CI_COMMIT_REF_NAME == 'master' ]; then export COMMIT_BRANCH=dev; else export COMMIT_BRANCH=dev; fi
