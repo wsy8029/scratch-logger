@@ -18,7 +18,7 @@ RUN git clone https://tom.song:fs770411%21%23%24@git.luxrobo.net/lms/scratch-web
 WORKDIR /usr/src/app/scratch-blocks
 
 RUN npm install
-RUN git checkout develop-ai
+# RUN git checkout develop-ai
 RUN npm run prepublish
 RUN npm link
 
