@@ -1,3 +1,13 @@
+# Docker 실행 테스트
+brew install docker or download docker hub
+
+```
+docker build -t scratch-web-gui .
+docker run -p 8601:8601 scratch-web-gui
+```
+
+browser에서 http://localhost:8601 확인해본다. 
+
 # scratch-gui
 #### Scratch GUI is a set of React components that comprise the interface for creating and running Scratch 3.0 projects
 
