@@ -36,6 +36,7 @@ class Controls extends React.Component {
                 var blocks = renderedTarget.blocks._blocks;
                 var heads = renderedTarget.blocks._scripts;
                 let scripts = [];
+                let tmp = [];
                 for (var j = 0 ; j < heads.length; j++) {
                     let script = []
                     var head = heads[j];
@@ -46,8 +47,15 @@ class Controls extends React.Component {
                         }
                         script.push(target.opcode);
                         while (target.inputs.SUBSTACK != null) {
+                            if (target.next) {
+                                tmp.push(target.next);
+                            }
                             target = blocks[target.inputs.SUBSTACK.block];
-                            script.push(target.opcode);   
+                            script.push(target.opcode);
+                        }
+                        if (tmp.length) {
+                            target = blocks[tmp.shift()];
+                            continue;
                         }
                         if (!target.next) {
                             break;
