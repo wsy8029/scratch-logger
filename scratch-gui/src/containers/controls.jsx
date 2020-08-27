@@ -68,23 +68,25 @@ class Controls extends React.Component {
                 }
                 project[renderedTarget.sprite.name] = scripts;
             }
-            console.log(Date.now(), "click flag", project);
-            firestore
-            .collection("test")
-            .add({
-                eventName: "click_flag",
-                eventCategory: "scratch_action",
-                eventType: "mouse",
-                eventAction: "click",
-                codeBlocks: JSON.stringify(project),
-                sourceIP: "annie",
-                created: Date.now(),
-            })
-            .then((res) => {
-                console.log(res);
-            })
-            .catch((err) => {
-                console.log(err);
+            console.log(Date.now(), "click_flag", project);
+            window.ai.logger(function handleClickFlag(firestore){
+                firestore
+                .collection("test")
+                .add({
+                    eventName: "click_flag",
+                    eventCategory: "scratch_action",
+                    eventType: "mouse",
+                    eventAction: "click",
+                    codeBlocks: JSON.stringify(project),
+                    sourceIP: "annie",
+                    created: Date.now(),
+                })
+                .then((res) => {
+                    console.log(res);
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
             });
         }
     }
@@ -93,9 +95,10 @@ class Controls extends React.Component {
         this.props.vm.stopAll();
         
         //@author grayson: handleStopEvent
+        console.log(Date.now(), "click_stop");
         window.ai.logger(function handleStopEvent(firestore){
             firestore
-            .collection("test_grayson")
+            .collection("test")
             .add({
                 created: Date.now(),
                 eventName: "click_stop",

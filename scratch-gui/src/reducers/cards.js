@@ -29,8 +29,9 @@ const reducer = function (state, action) {
     switch (action.type) {
     case CLOSE_CARDS:
         //@author Annie
-        console.log(Date.now(), "CloseCard");
-        firestore
+        console.log(Date.now(), "close_card", `${state.activeDeckId} - ${state.step}`);
+        window.ai.logger(function handleCloseCard(firestore){
+            firestore
             .collection("test")
             .add({
                 eventName: "close_card",
@@ -47,6 +48,7 @@ const reducer = function (state, action) {
             .catch((err) => {
                 console.log(err);
             });
+        });
         return Object.assign({}, state, {
             visible: false
         });
@@ -60,8 +62,9 @@ const reducer = function (state, action) {
         });
     case ACTIVATE_DECK:
         //@author Annie
-        console.log(Date.now(), "OpenCard");
-        firestore
+        console.log(Date.now(), "open_card", `${state.activeDeckId} - ${state.step}`);
+        window.ai.logger(function handleOpenCard(firestore){
+            firestore
             .collection("test")
             .add({
                 eventName: "open_card",
@@ -78,6 +81,7 @@ const reducer = function (state, action) {
             .catch((err) => {
                 console.log(err);
             });
+        });
         return Object.assign({}, state, {
             activeDeckId: action.activeDeckId,
             step: 0,
@@ -88,8 +92,9 @@ const reducer = function (state, action) {
         });
     case NEXT_STEP:
         //@author Annie
-        console.log(Date.now(), "NextStep");
-        firestore
+        console.log(Date.now(), "next_card", `${state.activeDeckId} - ${state.step}`);
+        window.ai.logger(function handleNextCardEvent(firestore){
+            firestore
             .collection("test")
             .add({
                 eventName: "next_card",
@@ -106,6 +111,7 @@ const reducer = function (state, action) {
             .catch((err) => {
                 console.log(err);
             });
+        });
         if (state.activeDeckId !== null) {
             analytics.event({
                 category: 'how-to',
@@ -119,8 +125,9 @@ const reducer = function (state, action) {
         return state;
     case PREV_STEP:
         //@author Annie
-        console.log(Date.now(), "PrevStep");
-        firestore
+        console.log(Date.now(), "previous_card", `${state.activeDeckId} - ${state.step}`);
+        window.ai.logger(function handleNextCardEvent(firestore){
+            firestore
             .collection("test")
             .add({
                 eventName: "previous_card",
@@ -137,6 +144,7 @@ const reducer = function (state, action) {
             .catch((err) => {
                 console.log(err);
             });
+        });
         if (state.activeDeckId !== null) {
             if (state.step > 0) {
                 return Object.assign({}, state, {

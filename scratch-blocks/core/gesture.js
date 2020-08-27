@@ -393,7 +393,7 @@ Blockly.Gesture.prototype.updateIsDraggingBlock_ = function() {
   var blockType = this.targetBlock_.type;
   var dragLocation = (this.flyout_ == null) ? "blockly_workspace" : "blockly_flyout";
   console.log(Date.now(), "drag_start", blockType, dragLocation)
-  window.ai.logger(function (firestore){
+  window.ai.logger(function handleDragStartEvent(firestore){
     firestore
     .collection("test")
     .add({
@@ -611,7 +611,7 @@ Blockly.Gesture.prototype.handleUp = function(e) {
     var blockType = this.targetBlock_.type;
     var dragLocation = (this.flyout_ == null) ? "blockly_flyout" : "blockly_workspace";
     console.log(Date.now(), "drag_end", blockType, dragLocation)
-    window.ai.logger(function (firestore){
+    window.ai.logger(function handleDragEndEvent(firestore){
       firestore
       .collection("test")
       .add({
@@ -643,8 +643,8 @@ Blockly.Gesture.prototype.handleUp = function(e) {
     //@author Annie
     var blockType = this.targetBlock_.type;
     var clickLocation = (this.targetBlock_.isInFlyout) ? "blockly_flyout" : "blockly_workspace";
-    console.log(Date.now(), "click", blockType, clickLocation);
-    window.ai.logger(function (firestore){
+    console.log(Date.now(), "click_block", blockType, clickLocation);
+    window.ai.logger(function handleClickBlock(firestore){
       firestore
       .collection("test")
       .add({

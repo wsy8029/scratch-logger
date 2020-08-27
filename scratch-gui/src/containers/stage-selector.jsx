@@ -98,12 +98,12 @@ class StageSelector extends React.Component {
         this.addBackdropFromLibraryItem(item, false);
         
         
-        //@author grayson: handleBackdropEvent: SurpriseBackdrop
-        var surprise_backdrop = item.name
-        
-        window.ai.logger(function handleBackdropEvent(firestore){
+        //@author grayson: handleSurpiseBackdropEven: SurpriseBackdrop
+        var surprise_backdrop = item.name;
+        console.log(Date.now(), "surprise_backdrop", surprise_backdrop);
+        window.ai.logger(function handleSurpiseBackdropEvent(firestore){
             firestore
-            .collection("test_grayson")
+            .collection("test")
             .add({
                 created: Date.now(),
                 eventName: "surprise_backdrop",
@@ -131,11 +131,11 @@ class StageSelector extends React.Component {
         const storage = this.props.vm.runtime.storage;
         this.props.onShowImporting();
         handleFileUpload(e.target, (buffer, fileType, fileName, fileIndex, fileCount) => {
-                    console.log('uPLOAD')
-                    //@author grayson: handleBackdropEvent: UploadBackdrop
-                    window.ai.logger(function handleBackdropEvent(firestore){
+                    console.log(Date.now(), "upload_backdrop");
+                    //@author grayson: handleUploadBackdropEvent: UploadBackdrop
+                    window.ai.logger(function handleUploadBackdropEvent(firestore){
                         firestore
-                        .collection("test_grayson")
+                        .collection("test")
                         .add({
                             created: Date.now(),
                             eventName: "upload_backdrop",

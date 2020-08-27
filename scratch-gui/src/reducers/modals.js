@@ -88,8 +88,9 @@ const openConnectionModal = function () {
 };
 const openTipsLibrary = function () {
     //@author Annie
-    console.log(Date.now(), "OpenTutorial");
-    firestore
+    console.log(Date.now(), "open_tutorial");
+    window.ai.logger(function handleNextCardEvent(firestore){
+        firestore
         .collection("test")
         .add({
             eventName: "open_tutorial",
@@ -105,6 +106,7 @@ const openTipsLibrary = function () {
         .catch((err) => {
             console.log(err);
         });
+    });
     return openModal(MODAL_TIPS_LIBRARY);
 };
 const closeBackdropLibrary = function () {
@@ -136,8 +138,9 @@ const closeSoundRecorder = function () {
 };
 const closeTipsLibrary = function () {
     //@author Annie
-    console.log(Date.now(), "CloseTutorial");
-    firestore
+    console.log(Date.now(), "close_tutorial");
+    window.ai.logger(function handleCloseTutorialEvent(firestore){
+        firestore
         .collection("test")
         .add({
             eventName: "close_tutorial",
@@ -153,6 +156,7 @@ const closeTipsLibrary = function () {
         .catch((err) => {
             console.log(err);
         });
+    });
     return closeModal(MODAL_TIPS_LIBRARY);
 };
 const closeConnectionModal = function () {

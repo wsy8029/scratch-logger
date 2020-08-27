@@ -33,8 +33,8 @@ class SpriteLibrary extends React.PureComponent {
         });
         
         //@author grayson:handleSpriteEvent
-        var picked_sprite=item.name 
-
+        var picked_sprite=item.name;
+        console.log(Date.now(), "pick_sprite", picked_sprite);
         window.ai.logger(function handleSpriteEvent(firestore){
             firestore
             .collection("test")

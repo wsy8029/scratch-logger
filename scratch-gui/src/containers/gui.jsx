@@ -117,38 +117,39 @@ class GUI extends React.Component {
 };
 
 //@author grayson: mouse-tracker 
-// function handleMouseEvent(e){
-//     var xCoordinates= 0;
-//     var yCoordinates = 0;
+function handleMouseEvent(e){
+    var xCoordinates = 0;
+    var yCoordinates = 0;
 
-//     if (e!=null){
-//         xCoordinates =e.pageX;
-//         yCoordinates =e.pageY;
-
-//         firestore
-//             .collection("test")
-//             .add({
-//                 created: Date.now(),
-//                 eventName: "mouse_move",
-//                 eventCategory: "mouse_action",
-//                 eventType: "mousemove",
-//                 eventX: xCoordinates,
-//                 eventY: yCoordinates,
-//                 sourceIP: "grayson",
-//             })
-//             .then((res) => {
-//                 console.log(res);
-//             })
-//             .catch((err) => {
-//                 console.log(err);
-//             });
-//     }
-//     else if (e= null){
-//          return
-//     };
-// };
-// setInterval(handleMouseEvent, 500);
-//
+    if (e!=null){
+        xCoordinates =e.pageX;
+        yCoordinates =e.pageY;
+        console.log(Date.now(), "mouse_move", xCoordinates, yCoordinates);
+        window.ai.logger(function handleMoveEvent(firestore){
+            firestore
+            .collection("test")
+            .add({
+                created: Date.now(),
+                eventName: "mouse_move",
+                eventCategory: "mouse_action",
+                eventType: "mousemove",
+                eventX: xCoordinates,
+                eventY: yCoordinates,
+                sourceIP: "grayson",
+            })
+            .then((res) => {
+                console.log(res);
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+        });
+    }
+    else if (e= null){
+         return
+    };
+};
+setInterval(handleMouseEvent, 500);
 
 
 GUI.propTypes = {
