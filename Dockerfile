@@ -39,7 +39,7 @@ RUN npm run prepublish
 # RUN npm install
 # RUN npm link
 
-# WORKDIR /usr/src/app/node_modules
+WORKDIR /usr/src/app
 
 EXPOSE 8601
 CMD [ "npm", "start" ]
