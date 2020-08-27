@@ -19,6 +19,7 @@ RUN npm install
 
 # Bundle app source
 COPY . .
+RUN ls
 
 WORKDIR /usr/src/app/node_modules
 RUN ls | grep scratch
