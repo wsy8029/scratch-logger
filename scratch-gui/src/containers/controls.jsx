@@ -28,12 +28,15 @@ class Controls extends React.Component {
             //@author Annie
             const blocks = this.props.vm.editingTarget.blocks._blocks;
             const heads = this.props.vm.editingTarget.blocks._scripts;
-
+            console.log(this.props.vm.editingTarget);
             let scripts = [];
             for (var i = 0 ; i < heads.length; i++) {
                 let script = []
                 var head = heads[i];
                 var target = blocks[head];
+                if ((target.opcode == "text") || (target.opcode == "math_number")) {
+                    continue;
+                }
                 script.push(target.opcode);
                 while (target.next) {
                     target = blocks[target.next];
