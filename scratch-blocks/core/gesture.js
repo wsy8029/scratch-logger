@@ -390,7 +390,6 @@ Blockly.Gesture.prototype.updateIsDraggingBlock_ = function() {
     this.isDraggingBlock_ = true;
   }
   //@author Annie
-  console.log(this.targetBlock_);
   var blockType = this.targetBlock_.type;
   var dragLocation = (this.flyout_ == null) ? "blockly_workspace" : "blockly_flyout";
   console.log(Date.now(), "drag_start", blockType, dragLocation)
@@ -609,7 +608,6 @@ Blockly.Gesture.prototype.handleUp = function(e) {
   } else if (this.isDraggingBlock_) {
     this.blockDragger_.endBlockDrag(e, this.currentDragDeltaXY_);
     //@author Annie
-    console.log(this.targetBlock_);
     var blockType = this.targetBlock_.type;
     var dragLocation = (this.flyout_ == null) ? "blockly_flyout" : "blockly_workspace";
     console.log(Date.now(), "drag_end", blockType, dragLocation)
