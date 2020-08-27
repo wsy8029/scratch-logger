@@ -1,0 +1,24 @@
+namespace:
+    name: "app"
+
+metadata:
+    name: "scratch-web-gui"
+
+labels:
+    env: "dev"
+    cluster: "luxrobo"
+
+image:
+    tag: latest
+    repository: 012634413971.dkr.ecr.ap-northeast-2.amazonaws.com/scratch-web-gui
+    imagePullPolicy: Always
+    imagePullSecrets: ap-northeast-2-ecr-registry
+
+service:
+    http: 80
+    targetHttp: 8601
+
+ingress:
+    host: dev-coding
+    domain: luxrobo.com
+    targetHttp: 80

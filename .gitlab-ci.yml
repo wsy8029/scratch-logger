@@ -1,0 +1,64 @@
+image: docker:latest
+
+variables:
+    KUBECONFIG: /etc/deploy/config
+    REPOSITORY_URL: 012634413971.dkr.ecr.ap-northeast-2.amazonaws.com/$SERVICE_NAME
+
+stages:
+    - deploy_ecr
+    - deploy
+
+cache:
+    paths:
+        - node_modules/
+
+before_script:
+    - apk add --update-cache curl git bash ca-certificates py-pip nodejs npm
+    # aws install
+    - pip install awscli
+    # kube config setting
+    - mkdir -p /etc/deploy
+    - echo ${kube_config} | base64 -d > ${KUBECONFIG}
+    - export KUBECONFIG=$HOME/.kube/kubeconfig && aws eks --region ap-northeast-2 update-kubeconfig --name dev-luxrobo
+
+deploy_ecr:
+    stage: deploy_ecr
+    script:
+        - aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
+        - aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
+        - aws configure set region $AWS_DEFAULT_REGION
+
+        # aws ecr login
+        - aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin $REPOSITORY_URL
+        - IMAGE_TAG="$(echo $CI_COMMIT_SHA | head -c 8)"
+        - echo "Building image..."
+        # aws ecr push image
+        - docker build -t $REPOSITORY_URL:latest .
+        - echo "Tagging image..."
+        - docker tag $REPOSITORY_URL:latest $REPOSITORY_URL:$IMAGE_TAG
+        - echo "Pushing image..."
+        - docker push $REPOSITORY_URL:latest
+        - docker push $REPOSITORY_URL:$IMAGE_TAG
+    tags:
+        - docker
+
+deploy:
+    stage: deploy
+    script:
+        # kubernetes helm package install & setting
+        - curl -L https://storage.googleapis.com/kubernetes-helm/helm-v2.11.0-linux-amd64.tar.gz | tar xz && mv linux-amd64/helm /bin/helm && rm -rf linux-amd64
+        - helm init --client-only --kubeconfig=$HOME/.kube/kubeconfig
+        - helm plugin install https://github.com/rimusz/helm-tiller --kubeconfig=$HOME/.kube/kubeconfig
+        - helm repo update
+
+        - helm tiller start-ci
+        - helm del --purge $SERVICE_NAME
+        - export DEPLOYS=$(helm ls | grep $SERVICE_NAME | wc -l)
+        - echo $CI_COMMIT_REF_NAME
+        - if [ $CI_COMMIT_REF_NAME == 'master' ]; then export COMMIT_BRANCH=dev; else export COMMIT_BRANCH=dev; fi
+        - echo $COMMIT_BRANCH
+        - echo ${COMMIT_BRANCH}
+        - echo $DEPLOYS
+        - if [ ${DEPLOYS} -eq 0 ]; then helm install --name=$SERVICE_NAME .charts/$COMMIT_BRANCH/service; else helm upgrade $SERVICE_NAME .charts/$COMMIT_BRANCH/service; fi
+    tags:
+        - docker

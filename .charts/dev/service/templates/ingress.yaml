@@ -1,0 +1,18 @@
+kind: Ingress
+apiVersion: extensions/v1beta1
+metadata:
+  name: {{ .Values.metadata.name }}
+  namespace: {{ .Values.namespace.name }}
+  labels:
+    app: {{ .Values.metadata.name }}
+  annotations:
+    kubernetes.io/ingress.class: traefik
+spec:
+  rules:
+  - host: {{ .Values.ingress.host }}.{{ .Values.ingress.domain }}
+    http: 
+      paths:
+        - path: /
+          backend:
+            serviceName: {{ .Values.metadata.name }}
+            servicePort: 80

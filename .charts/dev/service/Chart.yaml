@@ -1,0 +1,6 @@
+version: 1.0.0
+appVersion: 0.0.1
+name: scratch-web-gui
+description: Helm chart for scratch web gui
+source:
+    - https://git.luxrobo.net/lms/scratch-web-gui
