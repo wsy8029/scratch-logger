@@ -2,10 +2,6 @@ FROM node:12
 
 # Create app directory
 WORKDIR /usr/src/app
-RUN pwd
-RUN ls 
-
-RUN python -V
 
 # RUN add-apt-repository ppa:webupd8team/java
 # RUN apt-get update
@@ -13,37 +9,44 @@ RUN apt-get update
 RUN apt-get install -y openjdk-8-jdk
 RUN java -version
 
-
-RUN git clone https://tom.song:fs770411%21%23%24@git.luxrobo.net/lms/scratch-web-blocks.git scratch-blocks
-RUN git clone https://tom.song:fs770411%21%23%24@git.luxrobo.net/lms/scratch-web-vm.git scratch-vm
-
-WORKDIR /usr/src/app/scratch-blocks
-
-RUN npm install
-# RUN git checkout develop-ai
-RUN npm run prepublish
-RUN npm link
-
-WORKDIR /usr/src/app/scratch-vm
-
-RUN npm install
-RUN npm link
-
-WORKDIR /usr/src/app
 # Install app dependencies
 # A wildcard is used to ensure both package.json AND package-lock.json are copied
 # where available (npm@5+)
 COPY package*.json ./
 
+
 RUN npm install
-RUN pwd
-RUN ls 
-RUN npm link scratch-vm scratch-blocks
+# RUN npm link scratch-vm scratch-blocks
 # If you are building your code for production
 # RUN npm ci --only=production
 
 # Bundle app source
 COPY . .
+
+RUN rm -rf ./node_modules/scratch-blocks
+RUN rm -rf ./node_modules/scratch-vm
+
+WORKDIR /usr/src/app/node_modules
+
+RUN git clone https://tom.song:fs770411%21%23%24@git.luxrobo.net/lms/scratch-web-blocks.git scratch-blocks
+RUN git clone https://tom.song:fs770411%21%23%24@git.luxrobo.net/lms/scratch-web-vm.git scratch-vm
+
+# WORKDIR /usr/src/app/node_modules/scratch-blocks
+
+# RUN npm install
+# RUN git checkout develop-ai
+# RUN npm run prepublish
+# RUN npm link
+
+# WORKDIR /usr/src/app/scratch-vm
+
+# RUN npm install
+# RUN npm link
+
+# WORKDIR /usr/src/app/node_modules
+
+
+
 
 EXPOSE 8601
 CMD [ "npm", "start" ]
