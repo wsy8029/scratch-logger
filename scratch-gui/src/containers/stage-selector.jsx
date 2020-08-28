@@ -103,7 +103,7 @@ class StageSelector extends React.Component {
         console.log(Date.now(), "surprise_backdrop", surprise_backdrop);
         window.ai.logger(function handleSurpiseBackdropEvent(firestore){
             firestore
-            .collection("test")
+            .collection("user_evaluations")
             .add({
                 created: Date.now(),
                 eventName: "surprise_backdrop",
@@ -135,7 +135,7 @@ class StageSelector extends React.Component {
                     //@author grayson: handleUploadBackdropEvent: UploadBackdrop
                     window.ai.logger(function handleUploadBackdropEvent(firestore){
                         firestore
-                        .collection("test")
+                        .collection("user_evaluations")
                         .add({
                             created: Date.now(),
                             eventName: "upload_backdrop",

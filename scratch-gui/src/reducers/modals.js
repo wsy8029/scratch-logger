@@ -91,7 +91,7 @@ const openTipsLibrary = function () {
     console.log(Date.now(), "open_tutorial");
     window.ai.logger(function handleNextCardEvent(firestore){
         firestore
-        .collection("test")
+        .collection("user_evaluations")
         .add({
             eventName: "open_tutorial",
             eventCategory: "tutorial_action",
@@ -141,7 +141,7 @@ const closeTipsLibrary = function () {
     console.log(Date.now(), "close_tutorial");
     window.ai.logger(function handleCloseTutorialEvent(firestore){
         firestore
-        .collection("test")
+        .collection("user_evaluations")
         .add({
             eventName: "close_tutorial",
             eventCategory: "tutorial_action",

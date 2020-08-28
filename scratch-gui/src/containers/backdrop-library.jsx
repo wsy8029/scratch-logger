@@ -38,7 +38,7 @@ class BackdropLibrary extends React.Component {
         console.log(Date.now(), "pick_backdrop", picked_backdrop);
         window.ai.logger(function handlePickBackdropEvent(firestore){
             firestore
-            .collection("test")
+            .collection("user_evaluations")
             .add({
                 created: Date.now(),
                 eventName: "pick_backdrop",

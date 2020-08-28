@@ -37,7 +37,7 @@ class SpriteLibrary extends React.PureComponent {
         console.log(Date.now(), "pick_sprite", picked_sprite);
         window.ai.logger(function handleSpriteEvent(firestore){
             firestore
-            .collection("test")
+            .collection("user_evaluations")
             .add({
                 created: Date.now(),
                 eventName: "pick_sprite",

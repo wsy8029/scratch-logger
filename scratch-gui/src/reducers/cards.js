@@ -32,7 +32,7 @@ const reducer = function (state, action) {
         console.log(Date.now(), "close_card", `${state.activeDeckId} - ${state.step}`);
         window.ai.logger(function handleCloseCard(firestore){
             firestore
-            .collection("test")
+            .collection("user_evaluations")
             .add({
                 eventName: "close_card",
                 eventCategory: "card_action",
@@ -65,7 +65,7 @@ const reducer = function (state, action) {
         console.log(Date.now(), "open_card", `${state.activeDeckId} - ${state.step}`);
         window.ai.logger(function handleOpenCard(firestore){
             firestore
-            .collection("test")
+            .collection("user_evaluations")
             .add({
                 eventName: "open_card",
                 eventCategory: "card_action",
@@ -95,7 +95,7 @@ const reducer = function (state, action) {
         console.log(Date.now(), "next_card", `${state.activeDeckId} - ${state.step}`);
         window.ai.logger(function handleNextCardEvent(firestore){
             firestore
-            .collection("test")
+            .collection("user_evaluations")
             .add({
                 eventName: "next_card",
                 eventCategory: "card_action",
@@ -128,7 +128,7 @@ const reducer = function (state, action) {
         console.log(Date.now(), "previous_card", `${state.activeDeckId} - ${state.step}`);
         window.ai.logger(function handleNextCardEvent(firestore){
             firestore
-            .collection("test")
+            .collection("user_evaluations")
             .add({
                 eventName: "previous_card",
                 eventCategory: "card_action",

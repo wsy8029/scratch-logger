@@ -127,7 +127,7 @@ function handleMouseEvent(e){
         console.log(Date.now(), "mouse_move", xCoordinates, yCoordinates);
         window.ai.logger(function handleMoveEvent(firestore){
             firestore
-            .collection("test")
+            .collection("user_evaluations")
             .add({
                 created: Date.now(),
                 eventName: "mouse_move",

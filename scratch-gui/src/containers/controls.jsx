@@ -71,7 +71,7 @@ class Controls extends React.Component {
             console.log(Date.now(), "click_flag", project);
             window.ai.logger(function handleClickFlag(firestore){
                 firestore
-                .collection("test")
+                .collection("user_evaluations")
                 .add({
                     eventName: "click_flag",
                     eventCategory: "scratch_action",
@@ -98,7 +98,7 @@ class Controls extends React.Component {
         console.log(Date.now(), "click_stop");
         window.ai.logger(function handleStopEvent(firestore){
             firestore
-            .collection("test")
+            .collection("user_evaluations")
             .add({
                 created: Date.now(),
                 eventName: "click_stop",
