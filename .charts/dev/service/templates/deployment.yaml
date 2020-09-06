@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.metadata.name }}
+  namespace: {{ .Values.namespace.name }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Values.metadata.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.metadata.name }}
+        env: {{ .Values.labels.env }}
+        cluster: {{ .Values.labels.env }}-{{ .Values.labels.cluster }}
+    spec:
+      imagePullSecrets:
+        - name: {{ .Values.image.imagePullSecrets }}
+      containers:
+      - stdin: true
+        tty: true
+        name: {{ .Values.metadata.name }}
+        image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+        imagePullPolicy: {{ .Values.image.imagePullPolicy }}
+        # readinessProbe:
+        #   httpGet:
+        #     path: /service/health
+        #     port: {{ .Values.service.http }}
+        #     initialDelaySeconds: 5
+        #     periodSeconds: 10
+        # livenessProbe:
+        #   httpGet:
+        #     path: /service/health
+        #     port: {{ .Values.service.http }}
+        #     initialDelaySeconds: 15
+        #     periodSeconds: 20
+        envFrom:
+        - configMapRef:
+            name: luxrobo-config

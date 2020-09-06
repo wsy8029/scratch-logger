@@ -33,12 +33,12 @@ class BackdropLibrary extends React.Component {
             skinId: null
         };
 
-        //@author grayson: handleBackdropEvent
-        var picked_backdrop = item.name
-
-        window.ai.logger(function handleBackdropEvent(firestore){
+        //@author grayson: handlePickBackdropEvent
+        var picked_backdrop = item.name;
+        console.log(Date.now(), "pick_backdrop", picked_backdrop);
+        window.ai.logger(function handlePickBackdropEvent(firestore){
             firestore
-            .collection("test_grayson")
+            .collection("user_evaluations")
             .add({
                 created: Date.now(),
                 eventName: "pick_backdrop",

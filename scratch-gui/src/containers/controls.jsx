@@ -26,41 +26,67 @@ class Controls extends React.Component {
             }
             this.props.vm.greenFlag();
             //@author Annie
-            const blocks = this.props.vm.editingTarget.blocks._blocks;
-            const heads = this.props.vm.editingTarget.blocks._scripts;
-            console.log(this.props.vm.editingTarget);
-            let scripts = [];
-            for (var i = 0 ; i < heads.length; i++) {
-                let script = []
-                var head = heads[i];
-                var target = blocks[head];
-                if ((target.opcode == "text") || (target.opcode == "math_number")) {
+            const executable = this.props.vm.extensionManager.runtime.executableTargets;
+            var project = {}
+            for (var i = 0; i < executable.length; i++) {
+                var renderedTarget = executable[i];
+                if (!renderedTarget.blocks._scripts.length) {
                     continue;
                 }
-                script.push(target.opcode);
-                while (target.next) {
-                    target = blocks[target.next];
-                    script.push(target.opcode);
+                var blocks = renderedTarget.blocks._blocks;
+                var heads = renderedTarget.blocks._scripts;
+                let scripts = [];
+                let tmp = [];
+                for (var j = 0 ; j < heads.length; j++) {
+                    let script = []
+                    var head = heads[j];
+                    var target = blocks[head];
+                    while(true) {
+                        if ((target.opcode.startsWith("text")) || (target.opcode.startsWith("math"))){
+                            break;
+                        }
+                        script.push(target.opcode);
+                        while (target.inputs.SUBSTACK != null) {
+                            if (target.next) {
+                                tmp.push(target.next);
+                            }
+                            target = blocks[target.inputs.SUBSTACK.block];
+                            script.push(target.opcode);
+                        }
+                        if (tmp.length) {
+                            target = blocks[tmp.shift()];
+                            continue;
+                        }
+                        if (!target.next) {
+                            break;
+                        }
+                        target = blocks[target.next];
+                    }
+                    if (script.length) {
+                        scripts.push(script);
+                    }
                 }
-                scripts.push(script);
+                project[renderedTarget.sprite.name] = scripts;
             }
-            console.log(Date.now(), "click flag", scripts);
-            firestore
-            .collection("test")
-            .add({
-                eventName: "click_flag",
-                eventCategory: "scratch_action",
-                eventType: "mouse",
-                eventAction: "click",
-                codeBlocks: JSON.stringify(scripts),
-                sourceIP: "annie",
-                created: Date.now(),
-            })
-            .then((res) => {
-                console.log(res);
-            })
-            .catch((err) => {
-                console.log(err);
+            console.log(Date.now(), "click_flag", project);
+            window.ai.logger(function handleClickFlag(firestore){
+                firestore
+                .collection("user_evaluations")
+                .add({
+                    eventName: "click_flag",
+                    eventCategory: "scratch_action",
+                    eventType: "mouse",
+                    eventAction: "click",
+                    codeBlocks: JSON.stringify(project),
+                    sourceIP: "annie",
+                    created: Date.now(),
+                })
+                .then((res) => {
+                    console.log(res);
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
             });
         }
     }
@@ -69,9 +95,10 @@ class Controls extends React.Component {
         this.props.vm.stopAll();
         
         //@author grayson: handleStopEvent
+        console.log(Date.now(), "click_stop");
         window.ai.logger(function handleStopEvent(firestore){
             firestore
-            .collection("test_grayson")
+            .collection("user_evaluations")
             .add({
                 created: Date.now(),
                 eventName: "click_stop",

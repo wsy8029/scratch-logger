@@ -116,17 +116,30 @@ class GUI extends React.Component {
     }
 };
 
+<<<<<<< HEAD
 // @author grayson: mouse-tracker 
 function handleMouseEvent(e){
     var xCoordinates= 0;
+=======
+//@author grayson: mouse-tracker 
+function handleMouseEvent(e){
+    var xCoordinates = 0;
+>>>>>>> ad37e0af6ba629785522cc0f87492ae6e93eb929
     var yCoordinates = 0;
 
     if (e!=null){
         xCoordinates =e.pageX;
         yCoordinates =e.pageY;
+<<<<<<< HEAD
 
         firestore
             .collection("test")
+=======
+        console.log(Date.now(), "mouse_move", xCoordinates, yCoordinates);
+        window.ai.logger(function handleMoveEvent(firestore){
+            firestore
+            .collection("user_evaluations")
+>>>>>>> ad37e0af6ba629785522cc0f87492ae6e93eb929
             .add({
                 created: Date.now(),
                 eventName: "mouse_move",
@@ -141,14 +154,22 @@ function handleMouseEvent(e){
             })
             .catch((err) => {
                 console.log(err);
+<<<<<<< HEAD
             });
+=======
+            })
+        });
+>>>>>>> ad37e0af6ba629785522cc0f87492ae6e93eb929
     }
     else if (e= null){
          return
     };
 };
 setInterval(handleMouseEvent, 500);
+<<<<<<< HEAD
 
+=======
+>>>>>>> ad37e0af6ba629785522cc0f87492ae6e93eb929
 
 
 GUI.propTypes = {
