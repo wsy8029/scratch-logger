@@ -41,5 +41,5 @@ firestoreService.initializeApp(serviceAccount,  "https://ai-scratch-log.firebase
 
 // Start exporting your data
 firestoreService
-  .backup('user_evaluations')
+  .backup('test')
   .then((data) => console.log(JSON.stringify(data)));
