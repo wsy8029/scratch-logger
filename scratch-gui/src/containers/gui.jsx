@@ -37,8 +37,6 @@ import GUIComponent from "../components/gui/gui.jsx";
 import { setIsScratchDesktop } from "../lib/isScratchDesktop.js";
 import { firestore } from "../lib/firebase.js";
 
-import ScratchBlocks from 'scratch-blocks';
-
 class GUI extends React.Component {
     componentDidMount() {
         //@author Annie
@@ -116,60 +114,38 @@ class GUI extends React.Component {
     }
 };
 
-<<<<<<< HEAD
 // @author grayson: mouse-tracker 
-function handleMouseEvent(e){
-    var xCoordinates= 0;
-=======
-//@author grayson: mouse-tracker 
-function handleMouseEvent(e){
-    var xCoordinates = 0;
->>>>>>> ad37e0af6ba629785522cc0f87492ae6e93eb929
-    var yCoordinates = 0;
+// function handleMouseEvent(e){
+//     var xCoordinates= 0;
+//     var yCoordinates = 0;
 
-    if (e!=null){
-        xCoordinates =e.pageX;
-        yCoordinates =e.pageY;
-<<<<<<< HEAD
+//     if (e!=null){
+//         xCoordinates =e.pageX;
+//         yCoordinates =e.pageY;
 
-        firestore
-            .collection("test")
-=======
-        console.log(Date.now(), "mouse_move", xCoordinates, yCoordinates);
-        window.ai.logger(function handleMoveEvent(firestore){
-            firestore
-            .collection("user_evaluations")
->>>>>>> ad37e0af6ba629785522cc0f87492ae6e93eb929
-            .add({
-                created: Date.now(),
-                eventName: "mouse_move",
-                eventCategory: "mouse_action",
-                eventType: "mousemove",
-                eventX: xCoordinates,
-                eventY: yCoordinates,
-                sourceIP: "grayson",
-            })
-            .then((res) => {
-                console.log(res);
-            })
-            .catch((err) => {
-                console.log(err);
-<<<<<<< HEAD
-            });
-=======
-            })
-        });
->>>>>>> ad37e0af6ba629785522cc0f87492ae6e93eb929
-    }
-    else if (e= null){
-         return
-    };
-};
-setInterval(handleMouseEvent, 500);
-<<<<<<< HEAD
-
-=======
->>>>>>> ad37e0af6ba629785522cc0f87492ae6e93eb929
+//         firestore
+//             .collection("test")
+//             .add({
+//                 created: Date.now(),
+//                 eventName: "mouse_move",
+//                 eventCategory: "mouse_action",
+//                 eventType: "mousemove",
+//                 eventX: xCoordinates,
+//                 eventY: yCoordinates,
+//                 sourceIP: "grayson",
+//             })
+//             .then((res) => {
+//                 console.log(res);
+//             })
+//             .catch((err) => {
+//                 console.log(err);
+//             });
+//     }
+//     else if (e= null){
+//          return
+//     };
+// };
+// setInterval(handleMouseEvent, 500);
 
 
 GUI.propTypes = {
